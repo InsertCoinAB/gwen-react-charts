@@ -1,6 +1,6 @@
 {
   "name": "@insertcoinab/gwen-react-charts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "license": "MIT",
   "publishConfig": {
@@ -9,9 +9,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "dev": "vite",
     "build": "rm -rf dist && yarn build:ts && yarn build:types",
-    "build:ts": "babel src --extensions '.ts,.tsx' --out-dir dist --copy-files --ignore spec.ts",
-    "build:types": "tsc --project ./tsconfig.json --emitDeclarationOnly --skipLibCheck"
+    "build:ts": "babel src/chart --extensions '.ts,.tsx' --out-dir dist --copy-files --ignore spec.ts",
+    "build:types": "tsc --project ./tsconfig-build.json --emitDeclarationOnly --skipLibCheck"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.5",
@@ -27,12 +31,15 @@
     "react-dom": "^18.2.0",
     "typescript": "^5.0.4"
   },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
+  "peerDependencies": {},
   "dependencies": {
-    "@nivo/sankey": "^0.83.0"
+    "@nivo/core": "^0.83.0",
+    "@nivo/sankey": "^0.83.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "vite": "^4.4.9",
+    "web-vitals": "^3.4.0"
   },
   "babel": {
     "presets": [
