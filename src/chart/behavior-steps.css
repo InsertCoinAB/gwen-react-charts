@@ -1,14 +1,14 @@
 .step-end::after {
-  content: "";
-  border: 16px solid;
-  border-color: transparent;
-  border-left-color: var(--pseudo-color);
+	content: "";
+	border: 16px solid;
+	border-color: transparent;
+	border-left-color: var(--pseudo-color);
 }
 
 .step-start::before {
-  content: "";
-  border: 16px solid;
-  border-color: var(--pseudo-color);
-  border-right: 0px;
-  border-left-color: transparent;
+	content: "";
+	border: 16px solid;
+	border-color: var(--pseudo-color);
+	border-right: 0px;
+	border-left-color: transparent;
 }
