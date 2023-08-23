@@ -14,7 +14,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noEmit": true,
     "alwaysStrict": false,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false,
@@ -24,7 +23,9 @@
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "declaration": true,
     "outDir": "./dist"
   },
-  "include": ["src"]
+  "include": ["src/chart"]
 }
