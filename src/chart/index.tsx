@@ -81,7 +81,7 @@ const BehaviorFlowChart = ({ behaviorFlow, prevBehaviorFlow, behaviors, header, 
 				flexDirection: "column",
 				height: "100%",
 				background: "transparent",
-				paddingTop: "20px",
+				padding: "20px",
 			}}
 			className={className}
 		>

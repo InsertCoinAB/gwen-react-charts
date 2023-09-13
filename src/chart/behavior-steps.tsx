@@ -13,7 +13,7 @@ export const BehaviorSteps: React.FC<Props> = ({ steps, maxSteps, colors }: Prop
 		<div style={rowStyle}>
 			{steps.map((i, index) => (
 				<div
-					className={(index !== 0 ? "step-start " : "") + (index !== maxSteps ? "step-end" : "")}
+					className={(index !== 0 ? "step-start " : "") + (index !== maxSteps - 1 ? "step-end" : "")}
 					style={
 						{
 							...stepStyle,
@@ -43,8 +43,7 @@ const rowStyle = {
 	display: "flex",
 	width: "100%",
 	height: "32px",
-	paddingLeft: "50px",
-	paddingRight: "30px",
+	gap: "20px",
 }
 
 const titleStyle = {
@@ -58,9 +57,6 @@ const titleStyle = {
 	textAlign: "center",
 	userSelect: "none",
 	WebkitTouchCallout: "none",
-	WebkitUserSelect: "none",
-	MozUserSelect: "none",
-	msUserSelect: "none",
 } as const
 
 const stepStyle = {
