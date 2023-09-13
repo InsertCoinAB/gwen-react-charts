@@ -1,6 +1,7 @@
 import { ResponsiveSankey } from "@nivo/sankey"
 import React, { useEffect, useRef, useState } from "react"
 import { BehaviorFlowChartColors } from "."
+import { useDimensions } from "./use-dimensions"
 const NODES_PER_STEP = 6 // Determines amount of nodes per step
 const NODE_LIMIT = NODES_PER_STEP - 2
 type Node = {
@@ -31,14 +32,12 @@ function toolTipStyle() {
 const wrapperStyle = {
 	display: "flex",
 	height: "calc(100% - 72px)",
-	width: "calc(80% + 150px)",
+	width: "100%",
 }
 
 export const Sankey: React.FC<Props> = (props: Props) => {
 	const { colors } = props
-	const ref = useRef<HTMLDivElement>(null)
-	const [width, setWidth] = useState<number>(ref.current?.clientWidth ?? 0)
-	const observer = new ResizeObserver(() => setWidth(ref.current?.clientWidth ?? 0))
+	const { ref, width } = useDimensions()
 	const titleRecord: Record<string, string> = props.data.reduce(
 		(prev, curr) => ({
 			...prev,
@@ -53,17 +52,7 @@ export const Sankey: React.FC<Props> = (props: Props) => {
 	const prevData = props.prevData ? mergeNodes(props.prevData, props.endBehaviorId) : mergedData
 	// Corrects first step total
 	mergedData.filter((n) => n.step === 1).forEach((n) => (stepsTotal[1] += n.amount ?? 0))
-	const marginBase = width / props.maxSteps / props.maxSteps
-	const marginRecord: Record<number, number> = {
-		5: width < 1150 ? 120 : marginBase * 2.3,
-		4: width < 1150 ? (width < 800 ? 150 : 175) : marginBase * 2.3,
-		3: width < 1150 ? (width < 800 ? 200 : 270) : marginBase * 2.1,
-		2: width < 1150 ? (width < 800 ? 200 : 260) : marginBase * 1.6,
-	}
 
-	useEffect(() => {
-		if (ref.current) observer.observe(ref.current)
-	}, [props.data])
 	// Converts data to Sankey chart nodes & links
 	const data = toSankeyData(mergedData, props.endBehaviorId, colors, stepsTotal)
 
@@ -154,15 +143,19 @@ export const Sankey: React.FC<Props> = (props: Props) => {
 	}
 
 	const prevValuesRecord: Record<string, number> = toPrevRecordData(prevData, prevStepsTotal, props.endBehaviorId, props.maxSteps, colors)
+	const headerSize = 52
+	const labelSpacerSize = (props.maxSteps - 1) * 20
+	const labelSize = (width - labelSpacerSize) / props.maxSteps
+
 	return (
 		<div style={wrapperStyle} ref={ref}>
 			<ResponsiveSankey
 				data={data}
 				margin={{
-					top: 30,
-					right: marginRecord[props.maxSteps],
-					bottom: 90,
-					left: 50,
+					top: 35,
+					right: labelSize - 40,
+					bottom: headerSize + 20,
+					left: 0,
 				}}
 				align="center"
 				sort="input"
@@ -191,7 +184,6 @@ export const Sankey: React.FC<Props> = (props: Props) => {
 				)}
 				label={(node) => {
 					const top = node.y1 / 2 - node.y0 / 2
-					const width = ref.current?.clientWidth ?? 0
 					const x = node.x0 < width / 2 ? -40 : 0
 					const step = getCleanStep(node.id)
 					return (
